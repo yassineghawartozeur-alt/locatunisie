@@ -1,25 +1,27 @@
-import { logements } from '@/data/logements';
+import { logements } from "../../../data/logements";
+import { notFound } from "next/navigation";
 
-export default function DetailsLogement({ params }) {
-  // البحث عن المسكن باستخدام الـ ID
-  const logement = logements.find((item) => item.id === parseInt(params.id));
+export default async function LogementDetail({ params }) {
+  const { id } = await params;
+  const logement = logements.find((l) => l.id === Number(id));
 
-  if (!logement) return <p>Logement non trouvé</p>;
+  if (!logement) return notFound();
 
   return (
-    <div className="container mx-auto p-8">
-      <h1 className="font-titles text-4xl text-primary">{logement.nom}</h1>
-      <img src={logement.image} alt={logement.nom} className="my-4 rounded-lg" />
-      <p className="font-menu text-lg">{logement.description}</p>
-      <p className="font-bold text-secondary text-2xl mt-4">{logement.prix} DT / nuit</p>
-      
-      {/* زر الحجز (غير وظيفي كما هو مطلوب) */}
-      <button 
-        onClick={() => alert("Réservation confirmée")}
-        className="mt-6 bg-secondary text-white px-6 py-3 rounded-lg hover:bg-opacity-90 transition"
-      >
-        Réserver
-      </button>
+    <div className="max-w-2xl mx-auto p-6">
+      <img src={logement.image} alt={logement.nom} className="w-full h-72 object-cover rounded-lg" />
+      <h1 className="text-3xl font-bold mt-6">{logement.nom}</h1>
+      <p className="text-gray-600 mt-3 text-lg">{logement.description}</p>
+      <p className="text-orange-500 font-bold text-2xl mt-4">{logement.prix} DT / nuit</p>
+      <span className="inline-block mt-2 text-green-600 border border-green-600 rounded px-3 py-1">
+        {logement.categorie}
+      </span>
+      <div className="mt-8 flex items-center gap-4">
+        <a href="/" className="text-orange-500 hover:underline">← Retour aux logements</a>
+        <button className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-6 rounded transition-colors">
+          Réserver maintenant
+        </button>
+      </div>
     </div>
   );
 }
