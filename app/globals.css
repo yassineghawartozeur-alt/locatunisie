@@ -13,6 +13,11 @@
   padding: 0;
 }
 
+img {
+  max-width: 100%;
+  display: block;
+}
+
 body {
   font-family: sans-serif;
   background-color: #f9fafb;

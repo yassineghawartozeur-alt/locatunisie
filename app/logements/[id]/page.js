@@ -1,5 +1,7 @@
+
 import { logements } from "../../../data/logements";
 import { notFound } from "next/navigation";
+import ReservationModal from "../../../Components/ReservationModal";
 
 export default async function LogementDetail({ params }) {
   const { id } = await params;
@@ -8,19 +10,33 @@ export default async function LogementDetail({ params }) {
   if (!logement) return notFound();
 
   return (
-    <div className="max-w-2xl mx-auto p-6">
-      <img src={logement.image} alt={logement.nom} className="w-full h-72 object-cover rounded-lg" />
-      <h1 className="text-3xl font-bold mt-6">{logement.nom}</h1>
-      <p className="text-gray-600 mt-3 text-lg">{logement.description}</p>
-      <p className="text-orange-500 font-bold text-2xl mt-4">{logement.prix} DT / nuit</p>
-      <span className="inline-block mt-2 text-green-600 border border-green-600 rounded px-3 py-1">
+    <div style={{ maxWidth: "700px", margin: "40px auto", padding: "0 24px", fontFamily: "sans-serif" }}>
+
+      <div style={{ width: "100%", height: "260px", overflow: "hidden", borderRadius: "12px" }}>
+        <img
+          src={logement.image}
+          alt={logement.nom}
+          style={{ width: "100%", height: "260px", objectFit: "cover", objectPosition: "center", display: "block" }}
+        />
+      </div>
+
+      <h1 style={{ fontSize: "24px", fontWeight: "800", marginTop: "20px", color: "#1f2937" }}>
+        {logement.nom}
+      </h1>
+      <p style={{ color: "#6b7280", marginTop: "10px", fontSize: "15px", lineHeight: "1.6" }}>
+        {logement.description}
+      </p>
+      <p style={{ color: "#f97316", fontWeight: "800", fontSize: "22px", marginTop: "14px" }}>
+        {logement.prix} DT <span style={{ fontSize: "13px", fontWeight: "400", color: "#9ca3af" }}>/ nuit</span>
+      </p>
+      <span style={{ display: "inline-block", marginTop: "8px", color: "#16a34a", border: "1px solid #16a34a", borderRadius: "999px", padding: "4px 14px", fontSize: "13px" }}>
         {logement.categorie}
       </span>
-      <div className="mt-8 flex items-center gap-4">
-        <a href="/" className="text-orange-500 hover:underline">← Retour aux logements</a>
-        <button className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-6 rounded transition-colors">
-          Réserver maintenant
-        </button>
+      <div style={{ marginTop: "28px", display: "flex", alignItems: "center", gap: "16px" }}>
+        <a href="/" style={{ color: "#f97316", textDecoration: "none", fontSize: "14px" }}>
+          ← Retour aux logements
+        </a>
+        <ReservationModal logement={logement} />
       </div>
     </div>
   );
